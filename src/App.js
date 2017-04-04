@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { SnackSession } from 'snack-sdk';
-var QRCode = require('qrcode.react');
+import QRCode from 'qrcode.react';
 
 const INITIAL_CODE = `
 import React, { Component } from 'react';
@@ -72,13 +72,13 @@ class App extends Component {
     this.setState({
       code,
     });
-    this._snack.sendCodeAsync(code);
+    await this._snack.sendCodeAsync(code);
   }
 
   render() {
     return (
       <div>
-        <h2>{this.state.url}</h2>
+        <div>{this.state.url}</div>
         <div style={{padding: 20}}>
           <QRCode value={this.state.url}/>
         </div>
