@@ -49,9 +49,16 @@ class App extends Component {
       code,
     });
 
+    this._snack.addLogListener(this._onLog);
+    this._snack.addErrorListener(this._onError);
+    this._snack.addPresenceListener(this._onPresence);
+
     this.state = {
       url: '',
       code,
+      log: null,
+      error: null,
+      presence: null,
     };
   }
 
@@ -67,12 +74,30 @@ class App extends Component {
     });
   }
 
-  _updateCode = async (event) => {
+  _onChangeCode = async (event) => {
     const code = event.target.value;
     this.setState({
       code,
     });
     await this._snack.sendCodeAsync(code);
+  }
+
+  _onLog = (log) => {
+    this.setState({
+      log: JSON.stringify(log, null, 2),
+    });
+  }
+
+  _onError = (error) => {
+    this.setState({
+      error: JSON.stringify(error, null, 2),
+    });
+  }
+
+  _onPresence = (presence) => {
+    this.setState({
+      presence: JSON.stringify(presence, null, 2),
+    });
   }
 
   render() {
@@ -83,7 +108,25 @@ class App extends Component {
           <QRCode value={this.state.url}/>
         </div>
         <div>
-          <textarea value={this.state.code} onChange={this._updateCode} style={{width: 300, height: 300}}/>
+          <textarea value={this.state.code} onChange={this._onChangeCode} style={{width: 300, height: 300}}/>
+        </div>
+        <div>
+          Last log:
+          <pre>
+            {this.state.log}
+          </pre>
+        </div>
+        <div>
+          Last error:
+          <pre>
+            {this.state.error}
+          </pre>
+        </div>
+        <div>
+          Last presence event:
+          <pre>
+            {this.state.presence}
+          </pre>
         </div>
       </div>
     );
