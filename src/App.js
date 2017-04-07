@@ -47,6 +47,8 @@ class App extends Component {
 
     this._snack = new SnackSession({
       code,
+      // sessionId is optional, will be assigned a random value if not specified
+      sessionId: Math.random().toString(36).substring(7),
     });
 
     this._snack.addLogListener(this._onLog);
