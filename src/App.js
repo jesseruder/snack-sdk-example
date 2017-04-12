@@ -51,9 +51,9 @@ class App extends Component {
       sessionId: Math.random().toString(36).substring(7),
     });
 
-    this._snack.addLogListener(this._onLog);
-    this._snack.addErrorListener(this._onError);
-    this._snack.addPresenceListener(this._onPresence);
+    this._logSubscription = this._snack.addLogListener(this._onLog);
+    this._errorSubscription = this._snack.addErrorListener(this._onError);
+    this._presenceSubscription = this._snack.addPresenceListener(this._onPresence);
 
     this.state = {
       url: '',
@@ -102,6 +102,12 @@ class App extends Component {
     });
   }
 
+  _removeListeners = () => {
+    this._logSubscription.remove();
+    this._errorSubscription.remove();
+    this._presenceSubscription.remove();
+  }
+
   render() {
     return (
       <div>
@@ -129,6 +135,11 @@ class App extends Component {
           <pre>
             {this.state.presence}
           </pre>
+        </div>
+        <div>
+          <a href="#" onClick={this._removeListeners}>
+            Remove Listeners
+          </a>
         </div>
       </div>
     );
