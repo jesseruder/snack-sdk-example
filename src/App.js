@@ -91,12 +91,14 @@ class App extends Component {
   }
 
   _onError = (error) => {
+    console.log(JSON.stringify(error));
     this.setState({
       error: JSON.stringify(error, null, 2),
     });
   }
 
   _onPresence = (presence) => {
+    console.log(JSON.stringify(presence));
     this.setState({
       presence: JSON.stringify(presence, null, 2),
     });
